@@ -6,12 +6,14 @@ namespace Mission08_Team0412.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly TaskContext _context;
+
+        public HomeController(TaskContext context)
         {
-            _logger = logger;
+            _context = context;
         }
+
 
         public IActionResult Index()
         {
@@ -27,6 +29,28 @@ namespace Mission08_Team0412.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult TasksView()
+        {
+            return View();
+        }
+
+        public IActionResult QuadrantView()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TasksView()
+        {
+            return View();
+        }
+
+        public IActionResult QuadrantView()
+        {
+            return View();
         }
     }
 }
