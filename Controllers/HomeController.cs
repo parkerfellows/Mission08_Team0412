@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Mission08_Team0412.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mission08_Team0412.Controllers
 {
@@ -39,25 +40,64 @@ namespace Mission08_Team0412.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ViewBag.Categories = _context.Categories.ToList();
+            var categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.CategoryName
+                })
+                .ToList();
+
+            if (!categories.Any()) // Debugging: Check if categories exist
+            {
+                Console.WriteLine("No categories found in database.");
+            }
+
+            ViewBag.Categories = categories; // Ensure this is not null
+
             return View();
+        }
+
+
+
+        public IActionResult Quadrants()
+        {
+            var tasks = _context.Tasks.ToList(); // Retrieve tasks from the database
+
+            if (tasks == null)
+            {
+                tasks = new List<TaskItem>(); // Ensure Model is never null
+            }
+
+            return View(tasks); // Pass tasks to the view
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            // Get categories for dropdown
-            ViewBag.Categories = _context.Categories.ToList();
+            // Convert categories to SelectListItem before passing to ViewBag
+            ViewBag.Categories = _context.Categories
+                .Select(c => new SelectListItem
+                {
+                    Value = c.CategoryId.ToString(),
+                    Text = c.CategoryName
+                })
+                .ToList();
 
-            // Get the task to edit
+            // Fetch the task to edit
             var taskToEdit = _context.Tasks
-                .Single(t => t.TaskId == id);
+                .SingleOrDefault(t => t.TaskId == id);
+
+            if (taskToEdit == null)
+            {
+                return NotFound();
+            }
 
             return View("AddTask", taskToEdit);
         }
 
         [HttpPost]
-        public IActionResult Edit(TaskModel task)
+        public IActionResult Edit(TaskItem task)
         {
             if (ModelState.IsValid)
             {
@@ -103,9 +143,5 @@ namespace Mission08_Team0412.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult QuadrantView()
-        {
-            return View();
-        }
     }
 }

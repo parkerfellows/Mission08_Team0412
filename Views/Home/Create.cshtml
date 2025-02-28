@@ -1,4 +1,4 @@
-﻿@model Mission08_Team0412.Models.TaskModel
+﻿@model Mission08_Team0412.Models.TaskItem
 
 @{
     ViewData["Title"] = "Create Task";
@@ -28,10 +28,15 @@
         </select>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="CategoryId" class="form-label">Category</label>
-        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+    <div class="form-group">
+        <label for="CategoryId">Category</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+            <option value="">-- Select a Category --</option>
+        </select>
     </div>
+    <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+
 
     <div class="form-check mb-3">
         <input asp-for="Completed" class="form-check-input" />

@@ -12,6 +12,8 @@ namespace Mission08_Team0412.Models
         public string TaskName { get; set; }
         public string? DueDate { get; set; }
         public int Quadrant { get; set; }
+        [Required] // (Remove this if Category is optional)
+        public int CategoryId { get; set; }
         [ForeignKey(name: "CategoryId")]
         public Category Category { get; set; }
         public bool Completed { get; set; }
