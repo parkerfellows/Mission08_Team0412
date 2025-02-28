@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model List<Mission08_Team0412.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Quadrants View";
+}
+
+<h2 class="text-center">Task Quadrants</h2>
+
+<div class="container">
+    <div class="row">
+        <!-- Quadrant 1 -->
+        <div class="col-md-6">
+            <h4 class="text-danger">Quadrant I: Important / Urgent</h4>
+            @foreach (var task in Model.Where(t => t.Quadrant == 1))
+            {
+                <partial name="_TaskCard" model="task" />
+            }
+        </div>
+
+        <!-- Quadrant 2 -->
+        <div class="col-md-6">
+            <h4 class="text-warning">Quadrant II: Important / Not Urgent</h4>
+            @foreach (var task in Model.Where(t => t.Quadrant == 2))
+            {
+                <partial name="_TaskCard" model="task" />
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Quadrant 3 -->
+        <div class="col-md-6">
+            <h4 class="text-primary">Quadrant III: Not Important / Urgent</h4>
+            @foreach (var task in Model.Where(t => t.Quadrant == 3))
+            {
+                <partial name="_TaskCard" model="task" />
+            }
+        </div>
+
+        <!-- Quadrant 4 -->
+        <div class="col-md-6">
+            <h4 class="text-secondary">Quadrant IV: Not Important / Not Urgent</h4>
+            @foreach (var task in Model.Where(t => t.Quadrant == 4))
+            {
+                <partial name="_TaskCard" model="task" />
+            }
+        </div>
+    </div>
+</div>
