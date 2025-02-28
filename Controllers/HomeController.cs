@@ -4,6 +4,7 @@ using Mission08_Team0412.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mission08_Team0412.Controllers
 {
@@ -62,15 +63,13 @@ namespace Mission08_Team0412.Controllers
 
         public IActionResult Quadrants()
         {
-            var tasks = _context.Tasks.ToList(); // Retrieve tasks from the database
+            var tasks = _context.Tasks
+                .Include(t => t.Category) // Ensure Category is loaded
+                .ToList() ?? new List<TaskItem>(); // Ensure list is never null
 
-            if (tasks == null)
-            {
-                tasks = new List<TaskItem>(); // Ensure Model is never null
-            }
-
-            return View(tasks); // Pass tasks to the view
+            return View(tasks);
         }
+
 
         [HttpGet]
         public IActionResult Edit(int id)
@@ -134,13 +133,20 @@ namespace Mission08_Team0412.Controllers
             
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Delete(int id)
         {
-            var task = _context.Tasks.Single(t => t.TaskId == id);
-            _context.DeleteTask(task);
+            var task = _context.Tasks.Find(id);
 
-            return RedirectToAction("Index");
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
+
+            return RedirectToAction("Quadrants");
         }
 
     }

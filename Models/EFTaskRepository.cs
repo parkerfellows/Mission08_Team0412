@@ -1,4 +1,6 @@
-﻿namespace Mission08_Team0412.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Mission08_Team0412.Models
 {
     public class EFTaskRepository : ITaskRepository
     {
@@ -7,7 +9,7 @@
         {
             _context = temp;
         }
-        public List<TaskItem> Tasks => _context.Tasks.ToList();
+        public List<TaskItem> Tasks => _context.Tasks.Include(t => t.Category).ToList();
 
         List<TaskItem> ITaskRepository.Tasks { get => Tasks; set => throw new NotImplementedException(); }
     }
