@@ -57,11 +57,12 @@ namespace Mission08_Team0412.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(TaskModel task)
+        public IActionResult Edit(TaskItem task)
         {
             if (ModelState.IsValid)
             {
-                _context.UpdateTask(task);
+                _context.Update(task);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -82,7 +83,8 @@ namespace Mission08_Team0412.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.AddTask(task);
+                _context.Add(task);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -98,14 +100,12 @@ namespace Mission08_Team0412.Controllers
         public IActionResult Delete(int id)
         {
             var task = _context.Tasks.Single(t => t.TaskId == id);
-            _context.DeleteTask(task);
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult QuadrantView()
-        {
-            return View();
-        }
+     
     }
 }
