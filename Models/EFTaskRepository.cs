@@ -9,6 +9,6 @@
         }
         public List<TaskItem> Tasks => _context.Tasks.ToList();
 
-
+        List<TaskItem> ITaskRepository.Tasks { get => Tasks; set => throw new NotImplementedException(); }
     }
 }
