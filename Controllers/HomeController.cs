@@ -32,7 +32,7 @@ namespace Mission08_Team0412.Controllers
         }
 
         [HttpGet]
-        public IActionResult TasksView()
+        public IActionResult Create()
         {
             return View();
         }
@@ -43,7 +43,7 @@ namespace Mission08_Team0412.Controllers
         }
 
         [HttpPost]
-        public IActionResult TasksView()
+        public IActionResult Create()
         {
             return View();
         }
