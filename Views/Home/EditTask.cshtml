@@ -1,12 +1,15 @@
 ﻿@model Mission08_Team0412.Models.TaskItem
 
 @{
-    ViewData["Title"] = "Create Task";
+    ViewData["Title"] = "Edit Task";
 }
 
-<h2>Create a New Task</h2>
+<h2>Edit Task</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+    <!-- Include hidden field for TaskId -->
+    <input type="hidden" asp-for="TaskId" />
+
     <div class="mb-3">
         <label asp-for="TaskName" class="form-label">Task Name</label>
         <input asp-for="TaskName" class="form-control" required />
@@ -37,18 +40,15 @@
                 <option value="@category.CategoryId">@category.CategoryName</option>
             }
         </select>
-
     </div>
     <span asp-validation-for="CategoryId" class="text-danger"></span>
-
-
 
     <div class="form-check mb-3">
         <input asp-for="Completed" class="form-check-input" />
         <label asp-for="Completed" class="form-check-label">Completed</label>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add Task</button>
+    <button type="submit" class="btn btn-primary">Update Task</button>
 </form>
 
-<a asp-action="Index" class="btn btn-secondary mt-3">Back to Task List</a>
+<a asp-action="Quadrants" class="btn btn-secondary mt-3">Back to Task List</a>

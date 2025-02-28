@@ -10,7 +10,8 @@ namespace Mission08_Team0412.Models
 
         internal void AddTask(TaskItem task)
         {
-            throw new NotImplementedException();
+            Tasks.Add(task);
+            SaveChanges();
         }
 
         internal void DeleteTask(TaskItem task)

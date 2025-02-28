@@ -42,11 +42,6 @@ namespace Mission08_Team0412.Controllers
         public IActionResult Create()
         {
             var categories = _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
-                })
                 .ToList();
 
             if (!categories.Any()) // Debugging: Check if categories exist
@@ -76,11 +71,6 @@ namespace Mission08_Team0412.Controllers
         {
             // Convert categories to SelectListItem before passing to ViewBag
             ViewBag.Categories = _context.Categories
-                .Select(c => new SelectListItem
-                {
-                    Value = c.CategoryId.ToString(),
-                    Text = c.CategoryName
-                })
                 .ToList();
 
             // Fetch the task to edit
@@ -92,24 +82,20 @@ namespace Mission08_Team0412.Controllers
                 return NotFound();
             }
 
-            return View("AddTask", taskToEdit);
+            return View("EditTask", taskToEdit);
         }
 
         [HttpPost]
         public IActionResult Edit(TaskItem task)
         {
-            if (ModelState.IsValid)
-            {
-                _context.UpdateTask(task);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                // If validation fails, repopulate categories and return to form
-                ViewBag.Categories = _context.Categories.ToList();
-                return View("AddTask", task);
-            }
+
+            _context.Update(task);
+            _context.SaveChanges();
+            return RedirectToAction("Quadrants");
         }
+                
+                
+
 
         public IActionResult QuadrantView()
         {
@@ -119,17 +105,11 @@ namespace Mission08_Team0412.Controllers
         [HttpPost]
         public IActionResult Create( TaskItem task)
         {
-            if (ModelState.IsValid)
-            {
-                _context.AddTask(task);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                // If validation fails, repopulate categories and return to form
-                ViewBag.Categories = _context.Categories.ToList();
-                return View(task);
-            }
+     
+            _context.AddTask(task);
+            return RedirectToAction("Index");
+            
+   
             
         }
 
@@ -149,5 +129,17 @@ namespace Mission08_Team0412.Controllers
             return RedirectToAction("Quadrants");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> MarkCompleted(int id)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
+            task.Completed = true; // Mark task as completed
+            await _context.SaveChangesAsync(); // Save changes to the database
+            return RedirectToAction("Quadrants"); // Redirect to the Quadrants view
+        }
     }
 }
