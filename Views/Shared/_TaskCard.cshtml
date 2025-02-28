@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model Mission08_Team0412.Models.TaskItem
+
+<div class="card mb-2">
+    <div class="card-body">
+        <h5 class="card-title">@Model.TaskName</h5>
+        <p class="card-text"><strong>Due Date:</strong> @Model.DueDate?</p>
+        <p class="card-text"><strong>Category:</strong> @Model.Category.CategoryName</p>
+
+        <form asp-action="MarkCompleted" asp-route-id="@Model.TaskId" method="post" class="d-inline">
+            <button type="submit" class="btn btn-success btn-sm">Mark Completed</button>
+        </form>
+
+        <a asp-action="Edit" asp-route-id="@Model.TaskId" class="btn btn-primary btn-sm">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.TaskId" class="btn btn-danger btn-sm">Delete</a>
+    </div>
+</div>
