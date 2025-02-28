@@ -1,0 +1,44 @@
+﻿@model Mission08_Team0412.Models.TaskModel
+
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<h2>Create a New Task</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="TaskName" class="form-label">Task Name</label>
+        <input asp-for="TaskName" class="form-control" required />
+        <span asp-validation-for="TaskName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label">Due Date</label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Quadrant" class="form-label">Quadrant</label>
+        <select asp-for="Quadrant" class="form-control" required>
+            <option value="1">Important / Urgent</option>
+            <option value="2">Important / Not Urgent</option>
+            <option value="3">Not Important / Urgent</option>
+            <option value="4">Not Important / Not Urgent</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Completed" class="form-check-input" />
+        <label asp-for="Completed" class="form-check-label">Completed</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to Task List</a>
