@@ -2,7 +2,7 @@
 {
     public interface ITaskRepository
     {
-        List<TaskItem> Tasks { get; set; }
+        List<TaskItem> Tasks { get; }
 
     }
 }
