@@ -1,9 +1,18 @@
+using System;
+using Mission08_Team0412.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<TaskDbContext>(options =>
+  options.UseSqlite(builder.Configuration["ConnectionStrings:TheConnection"]);
+
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
